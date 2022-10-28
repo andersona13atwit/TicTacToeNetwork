@@ -121,7 +121,7 @@ printGrid()
 message = f'Player {currentPlayer}, please enter a position'
 print('hint: formatting for adding an o to the top left corner should look like : o 1,1')
 turnCounter = 0
-
+# test comment for commiting
 while(not(gameOver)):
     message = f'Player {(currentPlayer)}, please enter a position: '
     try:
