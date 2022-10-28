@@ -114,17 +114,27 @@ gameOver = False
 # printGrid()
 currentPlayer = 1
 message = f'Player {currentPlayer}, please enter a position'
+print('hint: formatting for adding an o to the top left corner should look like : o 1,1')
+turnCounter = 0
 while(not(gameOver)):
-    message = f'Player {currentPlayer}, please enter a position: '
-    # location = input(message)
+    message = f'Player {(currentPlayer)}, please enter a position: '
+    stringInput = input(message)
+    location = stringInput.split()
+    symToAdd = 0 if location[0] == 'o' else 1
+    location = location[1].split(',')
+    for num in range(len(location)):
+        location[num] = int(location[num])
+        location[num]-=1
     
-    currentPlayer+=1
+    currentPlayer = (currentPlayer%2)+1
     
-    addSymbol(1,[0,0])
-    addSymbol(1,[1,1])
-    addSymbol(1,[2,2])
+    addSymbol(symToAdd,location)
     printGrid()
     print()
     end = checkWin()
-    if(end < 0):
+    if(end < 0 or turnCounter == 9):
+        print('game over!')
         gameOver = True
+    else:
+        turnCounter+=1
+        print(turnCounter)
