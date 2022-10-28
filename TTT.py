@@ -71,8 +71,19 @@ def checkWin():
             return -1   
 
     #Checks for diagonal win
-        
-        
+    if grid[0][0] == 0 and grid[1][1] == 0 and grid[2][2] == 0 :
+        print('O wins!')
+        return -1
+    if grid[0][0] == 1 and grid[1][1] == 1 and grid[2][2] == 1 :
+        print('X wins!')
+        return -1
+
+    if grid[2][0] == 0 and grid[1][1] == 0 and grid[0][2] == 0 :
+        print('O wins!')
+        return -1
+    if grid[2][0] == 1 and grid[1][1] == 1 and grid[0][2] == 1 :
+        print('X wins!')
+        return -1
     
     return 0
     
@@ -110,8 +121,8 @@ while(not(gameOver)):
     currentPlayer+=1
     
     addSymbol(1,[0,0])
-    addSymbol(1,[0,1])
-    addSymbol(1,[0,2])
+    addSymbol(1,[1,1])
+    addSymbol(1,[2,2])
     printGrid()
     print()
     end = checkWin()
