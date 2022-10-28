@@ -14,44 +14,12 @@ grid = [[2, 2, 2],
         [2, 2, 2], 
         [2, 2, 2]]
 
-def checkWinVert():
-    xSum = 0
-    oSum = 0
-    for y in range(len(grid)):
-        if(grid[y][0] == 1):
-            oSum+=1
-    if oSum == len(grid):
-        return 1
-    else:
-        for x in range(len(grid)):
-            if(grid[x][0] == 0):
-                xSum+=1
-        if(xSum == len(grid)):
-            return 0
-    
-
-def checkWinHoriz():
-    xSum = 0
-    oSum = 0
-    for y in range(len(grid)):
-        for z in range(len(grid[y])):
-            if(grid[y][z] == 1):
-                oSum+=1
-    if oSum == len(grid):
-        return 1
-    
-    
-    else:
-        for x in range(len(grid)):
-            if(grid[x][0] == 0):
-                xSum+=1
-        if(xSum == len(grid)):
-            return 0
-
-def checkWinDiag():
-    return True
-
 def checkWin():
+    """Checks for three win conditions, horizontal, vertical, and diagonal 
+
+    Returns:
+        int: returns -1 if a win has been detected ANYWHERE, and a 0 if otherwise
+    """
     # Checks for vertical win
     for vert in grid:
         if(vert == [0, 0, 0]):
@@ -89,6 +57,9 @@ def checkWin():
     
     
 def printGrid():
+    """
+    Formats the grid for output (should be removed before final implementation)
+    """
     for row in grid:
         for col in row:
             if(col == 1):
@@ -111,7 +82,7 @@ def addSymbol(symbol, location):
     
 
 gameOver = False
-# printGrid()
+printGrid()
 currentPlayer = 1
 message = f'Player {currentPlayer}, please enter a position'
 print('hint: formatting for adding an o to the top left corner should look like : o 1,1')
@@ -137,4 +108,3 @@ while(not(gameOver)):
         gameOver = True
     else:
         turnCounter+=1
-        print(turnCounter)
