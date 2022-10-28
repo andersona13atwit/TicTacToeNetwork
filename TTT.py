@@ -121,6 +121,7 @@ printGrid()
 message = f'Player {currentPlayer}, please enter a position'
 print('hint: formatting for adding an o to the top left corner should look like : o 1,1')
 turnCounter = 0
+
 while(not(gameOver)):
     message = f'Player {(currentPlayer)}, please enter a position: '
     try:
@@ -139,12 +140,14 @@ while(not(gameOver)):
             print()
         else:
             print('Dont replace other players work')
+            turnCounter -= 1 
     except :
         print('Please type in correct format')
+        turnCounter -= 1 
 
     end = checkWin()
     
-    if(end < 0 or turnCounter == 50):
+    if(end < 0 or turnCounter == 9):
         print('game over!')
         gameOver = True
     else:
