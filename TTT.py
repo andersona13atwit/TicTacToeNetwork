@@ -61,28 +61,17 @@ def checkWin():
             print('X wins!')
             return -1
     # Checks for horizontal win
-    xCount = 0
-    yCount = 0
-    for horiz in grid[1]:
-        if grid[0][horiz] == 0:
-            xCount+=1
-        elif grid[0][horiz] == 1:
-            yCount+=1
-        if grid[1][horiz] == 0:
-            xCount+=1
-        elif grid[1][horiz] == 1:
-            yCount+=1
-        if grid[2][horiz] == 0:
-            xCount+=1
-        elif grid[2][horiz] == 1:
-            yCount+=1
-    corners = [grid[0][0], grid[0][2], grid[2][0], grid[2][2]]
-    if grid[1][1] == 0:
-        for element in corners:
-            pass
-    elif grid[1][1] == 1:
-        for element in corners:
-            pass
+    for col in range(3):
+        if grid[0][col] == 0 and grid[1][col] == 0 and grid[2][col] == 0 :
+            print('O wins!')
+            return -1
+    for col in range(3):
+        if grid[0][col] == 1 and grid[1][col] == 1 and grid[2][col] == 1 :
+            print('X wins!')
+            return -1   
+
+    #Checks for diagonal win
+        
         
     
     return 0
@@ -120,9 +109,9 @@ while(not(gameOver)):
     
     currentPlayer+=1
     
-    addSymbol(0,[0,0])
-    addSymbol(0,[0,1])
-    addSymbol(0,[0,2])
+    addSymbol(1,[0,0])
+    addSymbol(1,[0,1])
+    addSymbol(1,[0,2])
     printGrid()
     print()
     end = checkWin()
