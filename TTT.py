@@ -123,28 +123,30 @@ print('hint: formatting for adding an o to the top left corner should look like 
 turnCounter = 0
 while(not(gameOver)):
     message = f'Player {(currentPlayer)}, please enter a position: '
-   try:
-    stringInput = input(message)
-    location = stringInput.split()
-    symToAdd = 0 if location[0] == 'o' else 1
-    location = location[1].split(',')
-    for num in range(len(location)):
-          location[num] = int(location[num])
-          location[num]-=1
-    locationnumber=[int(i) for i in location]      
-    if grid[locationnumber[0]][locationnumber[1]] ==2  :
-       currentPlayer = (currentPlayer%2)+1
-       addSymbol(symToAdd,location)
-       printGrid()
-       print()
-    else:
-      print("Don't replace other play's work")
-   except :
-      print('Please type in correct formate')
-   end = checkWin()
-   if(end < 0 or turnCounter == 50):
+    try:
+        stringInput = input(message)
+        location = stringInput.split()
+        symToAdd = 0 if location[0] == 'o' else 1
+        location = location[1].split(',')
+        for num in range(len(location)):
+            location[num] = int(location[num])
+            location[num]-=1
+        locationnumber=[int(i) for i in location]      
+        if grid[locationnumber[0]][locationnumber[1]] ==2  :
+            currentPlayer = (currentPlayer%2)+1
+            addSymbol(symToAdd,location)
+            printGrid()
+            print()
+        else:
+            print('Dont replace other players work')
+    except :
+        print('Please type in correct format')
+
+    end = checkWin()
+    
+    if(end < 0 or turnCounter == 50):
         print('game over!')
         gameOver = True
-   else:
+    else:
         turnCounter+=1
         print("Turn:",turnCounter)
