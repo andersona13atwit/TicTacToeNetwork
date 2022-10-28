@@ -1,4 +1,6 @@
 '''
+major ideas:
+    save state (recomended by professor)
 Key:
     0 = o
     1 = x
@@ -6,8 +8,6 @@ Key:
     10 = O
     11 = X
 '''
-
-from tabnanny import check
 
 
 grid = [[2, 2, 2], 
@@ -52,40 +52,25 @@ def checkWinDiag():
     return True
 
 def checkWin():
-    vertWin = checkWinVert()
-    horizWin = checkWinHoriz()
-    diagWin = checkWinDiag()
-    if(vertWin == 1):
-        print('X wins!')
-        return -1
-    if(horizWin == 1):
-        print('X wins!')
-        return -1
-    if(diagWin == 1):
-        print('X wins!')
-        return -1
-    
-    if(vertWin == 0):
-        print('O wins!')
-        return -1
-    if(horizWin == 0):
-        print('O wins!')
-        return -1
-    if(diagWin == 0):
-        print('O wins!')
-        return -1
+    for vert in grid:
+        if(vert == [0, 0, 0]):
+            print('O wins!')
+            return -1
+        if(vert == [1, 1, 1]):
+            print('X wins!')
+            return -1
     return 0
     
     
 def printGrid():
     for row in grid:
         for col in row:
-            if(col == 0):
+            if(col == 1):
                 print('x', end=' ')
-            elif(col == 1):
+            elif(col == 0):
                 print('o', end=' ')
             else:
-                print('_', end=' ')
+                print('-', end=' ')
         print('')
 
 def addSymbol(symbol, location):
@@ -98,21 +83,20 @@ def addSymbol(symbol, location):
     if(symbol < 2):
         grid[location[0]][location[1]] = symbol
     
-    
 
 gameOver = False
-printGrid()
+# printGrid()
 currentPlayer = 1
 message = f'Player {currentPlayer}, please enter a position'
 while(not(gameOver)):
     message = f'Player {currentPlayer}, please enter a position: '
-    location = input(message)
+    # location = input(message)
     
     currentPlayer+=1
     
-    addSymbol(0, [0,0])
-    addSymbol(0, [1,0])
-    addSymbol(0, [2,0])
+    addSymbol(0,[0,0])
+    addSymbol(0,[0,1])
+    addSymbol(0,[0,2])
     printGrid()
     print()
     end = checkWin()
