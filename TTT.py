@@ -10,6 +10,10 @@ Key:
 '''
 
 
+from audioop import add
+from email.utils import localtime
+
+currentPlayer = 1
 grid = [[2, 2, 2], 
         [2, 2, 2], 
         [2, 2, 2]]
@@ -69,7 +73,27 @@ def printGrid():
             else:
                 print('-', end=' ')
         print('')
+def formatInput(stringInput):
+    """Takes an input string and splits it into an int that represents a symbol and a location array of 2 ints that is 0<value<4
 
+    Args:
+        stringInput (String): A string in the format of "symbol int,int". Any deviance from this will be handled between here and addSymbol
+
+    Returns:
+        array: returns the two inputs that are needed for addSymbol, a symbol and a location
+    """
+    location = stringInput.split()
+    if(len(location) != 2):
+        print('You did not enter enough characters, please try another input')
+        return formatInput(input(f'Player {(currentPlayer)}, please enter a position: '))
+    symToAdd = 0 if location[0] == 'o' else 1 if location[0] == 'x' else 2
+    if(len(location[1]) != 3):
+        pass
+    location = location[1].split(',')
+    for num in range(len(location)):
+        location[num] = int(location[num])
+        location[num] -= 1
+    return [symToAdd, location]
 def addSymbol(symbol, location):
     """
     Adds symbol to grid at location\n
@@ -77,29 +101,31 @@ def addSymbol(symbol, location):
         symbol (int): an integer that (if less than 2) will be added to the grid
         location (int[]): acts as coordinates in the grid and specifies where to put the symbol
     """
-    if(symbol < 2):
-        grid[location[0]][location[1]] = symbol
+    if symbol < 2:
+        if grid[location[0]][location[1]] == 2:
+            grid[location[0]][location[1]] = symbol
+        else:
+            print('you entered an occupied space! Please try again')
+            inputs = formatInput(input(f'Player {currentPlayer}, please enter a position: '))
+            addSymbol(inputs[0], inputs[1], currentPlayer)
+    else:
+        print('you entered an illegal symbol! Please try again (remember, only x and o are accepted')
+        inputs = formatInput(input(f'Player {currentPlayer}, please enter a position: '))
+        addSymbol(inputs[0], inputs[1])
+            
+            
     
 
 gameOver = False
 printGrid()
-currentPlayer = 1
 message = f'Player {currentPlayer}, please enter a position'
 print('hint: formatting for adding an o to the top left corner should look like : o 1,1')
 turnCounter = 0
 while(not(gameOver)):
     message = f'Player {(currentPlayer)}, please enter a position: '
-    stringInput = input(message)
-    location = stringInput.split()
-    symToAdd = 0 if location[0] == 'o' else 1
-    location = location[1].split(',')
-    for num in range(len(location)):
-        location[num] = int(location[num])
-        location[num]-=1
-    
+    inputs = formatInput(input(message))
+    addSymbol(inputs[0],inputs[1])
     currentPlayer = (currentPlayer%2)+1
-    
-    addSymbol(symToAdd,location)
     printGrid()
     print()
     end = checkWin()
