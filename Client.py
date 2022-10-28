@@ -21,5 +21,8 @@ def stringToGrid(incomingString):
     arr3 = gridStr[12:17].split(',')
     arr1.pop(len(arr1)-1)
     grid = [arr1, arr2, arr3]
+    for x in range(len(grid)):
+        for y in range(len(grid[x])):
+            grid[x][y] = int(grid[x][y])
     return grid
 print(stringToGrid(initGrid))
