@@ -7,18 +7,76 @@ Key:
     11 = X
 '''
 
-from audioop import add
+from tabnanny import check
 
 
 grid = [[2, 2, 2], 
         [2, 2, 2], 
         [2, 2, 2]]
+
 def checkWinVert():
-    pass
+    xSum = 0
+    oSum = 0
+    for y in range(len(grid)):
+        if(grid[y][0] == 1):
+            oSum+=1
+    if oSum == len(grid):
+        return 1
+    else:
+        for x in range(len(grid)):
+            if(grid[x][0] == 0):
+                xSum+=1
+        if(xSum == len(grid)):
+            return 0
+    
+
 def checkWinHoriz():
-    pass
+    xSum = 0
+    oSum = 0
+    for y in range(len(grid)):
+        for z in range(len(grid[y])):
+            if(grid[y][z] == 1):
+                oSum+=1
+    if oSum == len(grid):
+        return 1
+    
+    
+    else:
+        for x in range(len(grid)):
+            if(grid[x][0] == 0):
+                xSum+=1
+        if(xSum == len(grid)):
+            return 0
+
 def checkWinDiag():
-    pass
+    return True
+
+def checkWin():
+    vertWin = checkWinVert()
+    horizWin = checkWinHoriz()
+    diagWin = checkWinDiag()
+    if(vertWin == 1):
+        print('X wins!')
+        return -1
+    if(horizWin == 1):
+        print('X wins!')
+        return -1
+    if(diagWin == 1):
+        print('X wins!')
+        return -1
+    
+    if(vertWin == 0):
+        print('O wins!')
+        return -1
+    if(horizWin == 0):
+        print('O wins!')
+        return -1
+    if(diagWin == 0):
+        print('O wins!')
+        return -1
+    return 0
+    
+    
 def printGrid():
     for row in grid:
         for col in row:
@@ -47,11 +105,16 @@ printGrid()
 currentPlayer = 1
 message = f'Player {currentPlayer}, please enter a position'
 while(not(gameOver)):
-    message = f'Player {currentPlayer}, please enter a position'
-    print(message)
+    message = f'Player {currentPlayer}, please enter a position: '
+    location = input(message)
+    
     currentPlayer+=1
     
-    addSymbol(1, [0,0])
+    addSymbol(0, [0,0])
+    addSymbol(0, [1,0])
+    addSymbol(0, [2,0])
     printGrid()
-    
-    gameOver = True
+    print()
+    end = checkWin()
+    if(end < 0):
+        gameOver = True
