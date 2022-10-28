@@ -129,8 +129,10 @@ while(not(gameOver)):
     printGrid()
     print()
     end = checkWin()
-    if(end < 0 or turnCounter == 8):
+    if(end < 0 or turnCounter == 9):
         print('game over!')
         gameOver = True
+     
     else:
         turnCounter+=1
+        print(turnCounter)
