@@ -88,7 +88,7 @@ message = f'Player {currentPlayer}, please enter a position'
 print('hint: formatting for adding an o to the top left corner should look like : o 1,1')
 turnCounter = 0
 while(not(gameOver)):
-     message = f'Player {(currentPlayer)}, please enter a position: '
+   message = f'Player {(currentPlayer)}, please enter a position: '
     try:
      stringInput = input(message)
      location = stringInput.split()
@@ -104,14 +104,13 @@ while(not(gameOver)):
      addSymbol(symToAdd,location)
      printGrid()
      print()
-     end = checkWin()
-     if(end < 0 or turnCounter == 9):
+    except :
+        print('Please type in correct formate')
+    end = checkWin()
+    if(end < 0 or turnCounter == 9):
         print('game over!')
         gameOver = True
      
-     else:
+    else:
         turnCounter+=1
         print(turnCounter)
-
-    except :
-        print('Please type in correct formate')
