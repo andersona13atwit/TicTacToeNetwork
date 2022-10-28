@@ -14,43 +14,6 @@ grid = [[2, 2, 2],
         [2, 2, 2], 
         [2, 2, 2]]
 
-def checkWinVert():
-    xSum = 0
-    oSum = 0
-    for y in range(len(grid)):
-        if(grid[y][0] == 1):
-            oSum+=1
-    if oSum == len(grid):
-        return 1
-    else:
-        for x in range(len(grid)):
-            if(grid[x][0] == 0):
-                xSum+=1
-        if(xSum == len(grid)):
-            return 0
-    
-
-def checkWinHoriz():
-    xSum = 0
-    oSum = 0
-    for y in range(len(grid)):
-        for z in range(len(grid[y])):
-            if(grid[y][z] == 1):
-                oSum+=1
-    if oSum == len(grid):
-        return 1
-    
-    
-    else:
-        for x in range(len(grid)):
-            if(grid[x][0] == 0):
-                xSum+=1
-        if(xSum == len(grid)):
-            return 0
-
-def checkWinDiag():
-    return True
-
 def checkWin():
     # Checks for vertical win
     for vert in grid:
