@@ -94,43 +94,6 @@ def addSymbol(location):
             
     
 
-gameOver = False
-printGrid()
-message = f'Player {currentPlayer}, please enter a position'
-print('hint: formatting for adding an o to the top left corner should look like : o 1,1')
-turnCounter = 0
-while(not(gameOver)):
-    message = f'Player {(currentPlayer)}, please enter a position: '
-    inputs = formatInput(input(message))
-    addSymbol(inputs[0],inputs[1])
-    currentPlayer = (currentPlayer%2)+1
-    printGrid()
-    print()
-    end = checkWin()
-    if(end < 0 or turnCounter == 8):
-        print('game over!')
-        gameOver = True
-     
-    else:
-        turnCounter+=1
-        print(turnCounter)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def openSocket(addr, port):
     """A method to open a socket given a address and a port
