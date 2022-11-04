@@ -18,7 +18,7 @@ def checkWin():
             return -1
         if(vert == [1, 1, 1]):
             print('X wins!')
-            return -1
+            return -2
     # Checks for horizontal win
     for col in range(3):
         if grid[0][col] == 0 and grid[1][col] == 0 and grid[2][col] == 0 :
@@ -27,7 +27,7 @@ def checkWin():
     for col in range(3):
         if grid[0][col] == 1 and grid[1][col] == 1 and grid[2][col] == 1 :
             print('X wins!')
-            return -1   
+            return -2 
 
     #Checks for diagonal win
     if grid[0][0] == 0 and grid[1][1] == 0 and grid[2][2] == 0 :
@@ -35,14 +35,14 @@ def checkWin():
         return -1
     if grid[0][0] == 1 and grid[1][1] == 1 and grid[2][2] == 1 :
         print('X wins!')
-        return -1
+        return -2
 
     if grid[2][0] == 0 and grid[1][1] == 0 and grid[0][2] == 0 :
         print('O wins!')
         return -1
     if grid[2][0] == 1 and grid[1][1] == 1 and grid[0][2] == 1 :
         print('X wins!')
-        return -1
+        return -2
     
     return 0
     
@@ -142,7 +142,7 @@ def openSocket(addr, port):
         port (int): a port number which will be different between clients
     """
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(('10.220.43.220', 1234))
+    s.bind(('10.220.43.220', port))
     s.listen(5)
     initGrid = [[1, 2, 3], 
             [4, 5, 6],
@@ -168,5 +168,49 @@ def openSocket(addr, port):
         clientsocket.close()
         break
 
-openSocket('10.220.43.220', 1234) #We are able to open multiple connections like this
-openSocket('10.220.43.220', 1235)
+def gameEndSocket(addr, port):
+    """A method to open a socket given a address and a port
+       We need this because we are using multiple ports at a time, but we aren't worried about
+       concurrence because we know what order we want the inputs to come in
+
+    Args:
+        addr (string): The address we need. While testing this will be the same in both calls, but when the time is important they will be different
+        port (int): a port number which will be different between clients
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('10.220.43.220', port))
+    s.listen(5)
+
+    while True:
+        #connect to client
+        clientsocket, address = s.accept()
+        print('connected to' + address)
+
+        if checkWin == -1:
+            clientsocket.send(bytes('O wins!','utf-8'))
+        if checkWin == -2:
+            clientsocket.send(bytes('X wins!','utf-8'))
+        
+        #send client grid
+        clientsocket.send(bytes(str(grid),'utf-8'))
+
+        #print final board
+        printGrid
+        
+        clientsocket.close()
+        break
+
+while True:
+
+    port = 1234
+
+    #Get input from players
+    openSocket('10.220.43.220', port) #We are able to open multiple connections like this
+    port =+ 1
+
+    if checkWin < 0:
+        #Give player 1 game over
+        openSocket('10.220.43.220', port)
+        #Give player 2 game over
+        openSocket('10.220.43.220', port)
+        break
