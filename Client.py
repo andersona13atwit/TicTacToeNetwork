@@ -88,32 +88,14 @@ def formatInput(stringInput):
     if(len(location) != 2):
         print('You did not enter enough characters, please try another input')
         return formatInput(input('Please enter a position: '))
-    symToAdd = 0 if location[0] == 'o' else 1 if location[0] == 'x' else 2
+
     if(len(location[1]) != 3):
         pass
     location = location[1].split(',')
     for num in range(len(location)):
         location[num] = int(location[num])
         location[num] -= 1
-    return [symToAdd, location]
-def addSymbol(symbol, location):
-    """
-    Adds symbol to grid at location\n
-    Args:
-        symbol (int): an integer that (if less than 2) will be added to the grid
-        location (int[]): acts as coordinates in the grid and specifies where to put the symbol
-    """
-    if symbol < 2:
-        if grid[location[0]][location[1]] == 2:
-            grid[location[0]][location[1]] = symbol
-        else:
-            print('you entered an occupied space! Please try again')
-            inputs = formatInput(input('Please enter a position: '))
-            addSymbol(inputs[0], inputs[1])
-    else:
-        print('you entered an illegal symbol! Please try again (remember, only x and o are accepted')
-        inputs = formatInput(input('Please enter a position: '))
-        addSymbol(inputs[0], inputs[1])
+    return location
             
 
 
@@ -122,9 +104,22 @@ host = '10.220.43.220'
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, 1234))
 
-grid = stringToGrid(s.recv(50))
+while True:
+    #get grid
+    grid = stringToGrid(s.recv(50))
+    printGrid
 
-s.send(b'This will be an input')
+    #get input
+    prompt = f'Please enter a position: '
+    inputs = formatInput(input(prompt))
+
+    #send input
+    s.send(bytes(inputs, 'utf-8'))
+    s.close()
 
 
-s.close()
+
+
+
+
+
