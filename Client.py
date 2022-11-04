@@ -1,4 +1,22 @@
 import socket
+
+"""
+The Order of operations between server and client should be:
+
+Server sends grid
+Client receives
+Client sends input
+Server receives
+Server sends turnover code / gameover code
+Client makes further descisions based on such
+    turnover code:
+        close the connection and then 
+
+"""
+
+
+
+
 grid = [[2, 2, 2], 
         [2, 2, 2], 
         [2, 2, 2]]
@@ -104,7 +122,9 @@ host = '10.220.43.220'
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, 1234))
 
-s.send(b'Hello!')
+grid = stringToGrid(s.recv(50))
 
-print(stringToGrid(s.recv(50)))
+s.send(b'This will be an input')
+
+
 s.close()
