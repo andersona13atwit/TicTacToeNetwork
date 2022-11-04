@@ -45,7 +45,7 @@ def stringToGrid(incomingString):
     Returns:
         grid: A completed 2d array from the inputted values
     """
-    incomingString = stringifyInput(incomingString)
+    incomingString = stringifyGrid(incomingString)
     tempHolder = []
     grid = []
     toAppend = []
@@ -108,7 +108,7 @@ while True:
     #get grid
     grid = stringToGrid(s.recv(50))
     stringifyGrid(grid)
-    printGrid
+    printGrid()
 
     #get input
     prompt = f'Please enter a position: '
