@@ -156,13 +156,23 @@ def openSocket(addr, port):
     initGrid = [[1, 2, 3], 
             [4, 5, 6],
             [7, 8, 9]]
+            
     while True:
+        #connect to client
         clientsocket, address = s.accept()
-        print(address)
+        print('connected to' + address)
         
-        message = clientsocket.recv(50) + (b'Hello Client!')
+        #send client grid
         clientsocket.send(bytes(str(initGrid),'utf-8'))
-        print(message)
+
+        #get the valid user input for symbol location
+        userInput = clientsocket.recv(50)
+
+        #add symbol to board
+        addSymbol(userInput)
+
+        #print new board
+        printGrid
         
         clientsocket.close()
         break
