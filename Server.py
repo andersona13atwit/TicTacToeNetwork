@@ -141,21 +141,31 @@ while(not(gameOver)):
 
 
 
+def openSocket(addr, port):
+    """A method to open a socket given a address and a port
+       We need this because we are using multiple ports at a time, but we aren't worried about
+       concurrence because we know what order we want the inputs to come in
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('10.220.43.220', 1234))
-s.listen(5)
-initGrid = [[1, 2, 3], 
-        [4, 5, 6],
-        [7, 8, 9]]
-while True:
-    clientsocket, address = s.accept()
-    print(address)
-    
-    message = clientsocket.recv(50) + (b'Hello Client!')
-    clientsocket.send(bytes(str(initGrid),'utf-8'))
-    print(message)
-    
-    clientsocket.close()
-    break
+    Args:
+        addr (string): The address we need. While testing this will be the same in both calls, but when the time is important they will be different
+        port (int): a port number which will be different between clients
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('10.220.43.220', 1234))
+    s.listen(5)
+    initGrid = [[1, 2, 3], 
+            [4, 5, 6],
+            [7, 8, 9]]
+    while True:
+        clientsocket, address = s.accept()
+        print(address)
+        
+        message = clientsocket.recv(50) + (b'Hello Client!')
+        clientsocket.send(bytes(str(initGrid),'utf-8'))
+        print(message)
+        
+        clientsocket.close()
+        break
 
+openSocket('10.220.43.220', 1234) #We are able to open multiple connections like this
+openSocket('10.220.43.220', 1235)
