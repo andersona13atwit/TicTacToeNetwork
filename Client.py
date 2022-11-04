@@ -20,7 +20,7 @@ Client makes further descisions based on such
 grid = [[2, 2, 2], 
         [2, 2, 2], 
         [2, 2, 2]]
-def stringifyInput(incString):
+def stringifyGrid(incString):
     """A method to turn a byte-string version of an array into a normal string version of an array without the parentheses
         Made to be used within stringToGrid
 
@@ -107,6 +107,7 @@ s.connect((host, 1234))
 while True:
     #get grid
     grid = stringToGrid(s.recv(50))
+    stringifyGrid(grid)
     printGrid
 
     #get input
