@@ -160,7 +160,8 @@ def openSocket(addr, port):
         userInput = clientsocket.recv(50)
 
         #add symbol to board
-        addSymbol(userInput)
+        inputs = formatInput(input(userInput))
+        addSymbol(inputs[0],inputs[1])
 
         #print new board
         printGrid
@@ -170,8 +171,7 @@ def openSocket(addr, port):
 
 def gameEndSocket(addr, port):
     """A method to open a socket given a address and a port
-       We need this because we are using multiple ports at a time, but we aren't worried about
-       concurrence because we know what order we want the inputs to come in
+       The socket that sends game over and ends the game
 
     Args:
         addr (string): The address we need. While testing this will be the same in both calls, but when the time is important they will be different
@@ -186,9 +186,14 @@ def gameEndSocket(addr, port):
         clientsocket, address = s.accept()
         print('connected to' + address)
 
+        #Check for tie
+        if turnCounter == 8:
+            clientsocket.send(bytes('Tie!','utf-8'))
+
+        #Check for winner
         if checkWin == -1:
             clientsocket.send(bytes('O wins!','utf-8'))
-        if checkWin == -2:
+        else:
             clientsocket.send(bytes('X wins!','utf-8'))
         
         #send client grid
@@ -200,17 +205,30 @@ def gameEndSocket(addr, port):
         clientsocket.close()
         break
 
+currentPort = 1234
+turnCounter = 0
+
 while True:
 
     port = 1234
 
     #Get input from players
-    openSocket('10.220.43.220', port) #We are able to open multiple connections like this
-    port += 1
+    openSocket('10.220.43.220', currentPort) #We are able to open multiple connections like this
 
-    if checkWin < 0:
+    if checkWin < 0 or turnCounter == 8:
         #Give player 1 game over
-        openSocket('10.220.43.220', port)
+        gameEndSocket('10.220.43.220', currentPort)
         #Give player 2 game over
-        openSocket('10.220.43.220', port)
+        gameEndSocket('10.220.43.220', currentPort)
         break
+
+    #Change port
+    if currentPort == 1234:
+        currentPort =+ 1
+    else:
+        currentPort =- 1
+
+    turnCounter =+ 1
+
+
+    
