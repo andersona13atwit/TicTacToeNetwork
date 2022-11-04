@@ -142,7 +142,7 @@ def openSocket(addr, port):
         port (int): a port number which will be different between clients
     """
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(('10.220.43.220', port))
+    s.bind((addr, port))
     s.listen(5)
     initGrid = [[1, 2, 3], 
             [4, 5, 6],
@@ -178,7 +178,7 @@ def gameEndSocket(addr, port):
         port (int): a port number which will be different between clients
     """
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(('10.220.43.220', port))
+    s.bind((addr, port))
     s.listen(5)
 
     while True:
@@ -206,7 +206,7 @@ while True:
 
     #Get input from players
     openSocket('10.220.43.220', port) #We are able to open multiple connections like this
-    port =+ 1
+    port += 1
 
     if checkWin < 0:
         #Give player 1 game over
