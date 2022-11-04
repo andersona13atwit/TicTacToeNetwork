@@ -121,8 +121,7 @@ def openSocket(addr, port):
         userInput = clientsocket.recv(50)
 
         #add symbol to board
-        inputs = formatInput(input(userInput))
-        addSymbol(inputs[0],inputs[1])
+        addSymbol(userInput)
 
         #print new board
         printGrid
