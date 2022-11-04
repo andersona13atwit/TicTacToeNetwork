@@ -216,9 +216,18 @@ while True:
     openSocket('10.220.43.220', currentPort) #We are able to open multiple connections like this
 
     if checkWin < 0 or turnCounter == 8:
-        #Give player 1 game over
+        #Give the player game over
         gameEndSocket('10.220.43.220', currentPort)
-        #Give player 2 game over
+
+        #Change port
+        if currentPort == 1234:
+            currentPort =+ 1
+        else:
+            currentPort =- 1
+
+        turnCounter =+ 1
+        
+        #Give the other player game over
         gameEndSocket('10.220.43.220', currentPort)
         break
 
