@@ -81,24 +81,15 @@ def formatInput(stringInput):
         location[num] = int(location[num])
         location[num] -= 1
     return [symToAdd, location]
-def addSymbol(symbol, location):
+def addSymbol(location):
     """
     Adds symbol to grid at location\n
     Args:
         symbol (int): an integer that (if less than 2) will be added to the grid
         location (int[]): acts as coordinates in the grid and specifies where to put the symbol
     """
-    if symbol < 2:
-        if grid[location[0]][location[1]] == 2:
-            grid[location[0]][location[1]] = symbol
-        else:
-            print('you entered an occupied space! Please try again')
-            inputs = formatInput(input(f'Player {currentPlayer}, please enter a position: '))
-            addSymbol(inputs[0], inputs[1], currentPlayer)
-    else:
-        print('you entered an illegal symbol! Please try again (remember, only x and o are accepted')
-        inputs = formatInput(input(f'Player {currentPlayer}, please enter a position: '))
-        addSymbol(inputs[0], inputs[1])
+    if grid[location[0]][location[1]] == 2:
+        grid[location[0]][location[1]] = currentPlayer-1
             
             
     
@@ -156,7 +147,7 @@ def openSocket(addr, port):
     initGrid = [[1, 2, 3], 
             [4, 5, 6],
             [7, 8, 9]]
-            
+
     while True:
         #connect to client
         clientsocket, address = s.accept()
