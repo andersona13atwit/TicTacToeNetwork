@@ -91,8 +91,6 @@ def addSymbol(location):
     if grid[location[0]][location[1]] == 2:
         grid[location[0]][location[1]] = currentPlayer-1
             
-            
-    
 
 
 def openSocket(addr, port):
@@ -189,7 +187,7 @@ while True:
             currentPort =- 1
 
         turnCounter =+ 1
-        
+
         #Give the other player game over
         gameEndSocket('10.220.43.220', currentPort)
         break
