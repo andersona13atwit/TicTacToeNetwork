@@ -13,17 +13,31 @@
 initGrid = [[1, 2, 3], 
         [4, 5, 6],
         [7, 8, 9]]
+def stringifyInput(incString):
+    incString = incString.decode()
+    incString = incString.replace('[','')
+    incString = incString.replace(']', '')
+    return incString
 def stringToGrid(incomingString):
-    arr1 = incomingString[0:6].split(',')
-    arr2 = incomingString[6:12].split(',')
-    arr2.pop(len(arr2)-1)
-    arr3 = incomingString[12:17].split(',')
-    arr1.pop(len(arr1)-1)
-    grid = [arr1, arr2, arr3]
-    for x in range(len(grid)):
-        for y in range(len(grid[x])):
-            grid[x][y] = int(grid[x][y])
+    incomingString = stringifyInput(incomingString)
+    tempHolder = []
+    grid = []
+    toAppend = []
+    count = 0
+    arr = incomingString.split(',')
+    for num in arr:
+        tempHolder.append(int(num))
+    for num in tempHolder:
+        toAppend.append(num)
+        if count < 2:
+            count+=1
+        else:
+            grid.append(toAppend)
+            count = 0
+            toAppend = []
     return grid
+initString = bytes(str(initGrid),'utf-8')
+print(stringToGrid(initString))
 
-print(bytes(str(initGrid),'utf-8'))
+
 # print(stringToGrid(initGrid))
