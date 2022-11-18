@@ -92,7 +92,7 @@ def openSocket(addr, port):
     while True:
         #connect to client
         clientsocket, address = s.accept()
-        print('connected to' + address)
+        print('connected to' + address[0])
         
         #send client grid
         clientsocket.send(bytes(str(initGrid),'utf-8'))
@@ -124,7 +124,7 @@ def gameEndSocket(addr, port):
     while True:
         #connect to client
         clientsocket, address = s.accept()
-        print('connected to' + address)
+        print('connected to ' + address)
 
         #Check for tie
         if turnCounter == 8:

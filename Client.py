@@ -31,7 +31,7 @@ def stringifyGrid(incString):
     Returns:
         incString: Returns the original byte-string as a normal string to be parsed by stringToGrid()
     """
-    incString = incString.decode()
+    incString = str(incString)
     incString = incString.replace('[','')
     incString = incString.replace(']', '')
     return incString
@@ -106,12 +106,12 @@ s.connect((host, 1234))
 
 while True:
     #get grid
-    grid = stringToGrid(s.recv(50))
+    grid = stringToGrid(s.recv(50).decode())
     stringifyGrid(grid)
     printGrid()
 
     #get input
-    prompt = f'Please enter a position: '
+    prompt = 'Please enter a position: '
     inputs = formatInput(input(prompt))
 
     #send input
