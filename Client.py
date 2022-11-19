@@ -79,27 +79,31 @@ def formatInput(stringInput):
     """Takes an input string and splits it into an int that represents a symbol and a location array of 2 ints that is 0<value<4
 
     Args:
-        stringInput (String): A string in the format of "symbol int,int". Any deviance from this will be handled between here and addSymbol
+        stringInput (String): A string in the format of "int,int". Any deviance from this will be handled between here and addSymbol
 
     Returns:
         array: returns the two inputs that are needed for addSymbol, a symbol and a location
     """
-    location = stringInput.split()
+    location = stringInput.split(",")
     if(len(location) != 2):
         print('You did not enter enough characters, please try another input')
         return formatInput(input('Please enter a position: '))
 
-    if(len(location[1]) != 3):
-        pass
-    location = location[1].split(',')
+    #if(len(location[1]) != 3):
+        #pass
     for num in range(len(location)):
-        location[num] = int(location[num])
-        location[num] -= 1
-    return location
+        if location[num].isnumeric():
+            location[num] = int(location[num])
+            location[num] -= 1
+        else:
+            print('You entered a non-numeric character, please try another input')
+            return formatInput(input('Please enter a position: '))
+        
+    return str(location[0]) + "," + str(location[1])
             
 
 
-host = '10.220.43.220'
+host = '10.12.60.138'
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, 1234))

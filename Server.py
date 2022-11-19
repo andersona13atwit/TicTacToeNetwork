@@ -65,11 +65,14 @@ def addSymbol(location):
     """
     Adds symbol to grid at location\n
     Args:
-        symbol (int): an integer that (if less than 2) will be added to the grid
-        location (int[]): acts as coordinates in the grid and specifies where to put the symbol
+        location (String): acts as coordinates in the grid and specifies where to put the symbol, has to be put into array form first
     """
-    if grid[location[0]][location[1]] == 2:
-        grid[location[0]][location[1]] = currentPlayer-1
+    if(isinstance(location, str)):
+        location = location.split(',')
+        print(location + ' location')
+        
+        if grid[location[0]][location[1]] == 2:
+            grid[location[0]][location[1]] = currentPlayer-1
             
 
 
@@ -85,17 +88,14 @@ def openSocket(addr, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((addr, port))
     s.listen(5)
-    initGrid = [[1, 2, 3], 
-            [4, 5, 6],
-            [7, 8, 9]]
 
     while True:
         #connect to client
         clientsocket, address = s.accept()
-        print('connected to' + address[0])
+        print('connected to ' + address[0])
         
         #send client grid
-        clientsocket.send(bytes(str(initGrid),'utf-8'))
+        clientsocket.send(bytes(str(grid),'utf-8'))
 
         #get the valid user input for symbol location
         userInput = clientsocket.recv(50)
@@ -104,7 +104,7 @@ def openSocket(addr, port):
         addSymbol(userInput)
 
         #print new board
-        printGrid
+        printGrid()
         
         clientsocket.close()
         break
@@ -140,7 +140,7 @@ def gameEndSocket(addr, port):
         clientsocket.send(bytes(str(grid),'utf-8'))
 
         #print final board
-        printGrid
+        printGrid()
         
         clientsocket.close()
         break
@@ -153,11 +153,11 @@ while True:
     port = 1234
 
     #Get input from players
-    openSocket('10.220.43.220', currentPort) #We are able to open multiple connections like this
+    openSocket('10.12.60.138', currentPort) #We are able to open multiple connections like this
 
-    if checkWin < 0 or turnCounter == 8:
+    if checkWin() < 0 or turnCounter == 8:
         #Give the player game over
-        gameEndSocket('10.220.43.220', currentPort)
+        gameEndSocket('10.12.60.138', currentPort)
 
         #Change port
         if currentPort == 1234:
@@ -168,7 +168,7 @@ while True:
         turnCounter =+ 1
 
         #Give the other player game over
-        gameEndSocket('10.220.43.220', currentPort)
+        gameEndSocket('10.12.60.138', currentPort)
         break
 
     #Change port
