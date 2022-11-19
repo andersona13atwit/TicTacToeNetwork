@@ -69,10 +69,9 @@ def addSymbol(location):
     """
     if(isinstance(location, str)):
         location = location.split(',')
-        print(location + ' location')
         
-        if grid[location[0]][location[1]] == 2:
-            grid[location[0]][location[1]] = currentPlayer-1
+        if grid[int(location[0])][int(location[1])] == 2:
+            grid[int(location[0])][int(location[1])] = currentPlayer-1
             
 
 
@@ -101,7 +100,7 @@ def openSocket(addr, port):
         userInput = clientsocket.recv(50)
 
         #add symbol to board
-        addSymbol(userInput)
+        addSymbol(userInput.decode())
 
         #print new board
         printGrid()
