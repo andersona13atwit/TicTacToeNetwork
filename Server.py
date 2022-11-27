@@ -153,11 +153,11 @@ while True:
     port = 1234
 
     #Get input from players
-    openSocket('10.12.60.138', currentPort) #We are able to open multiple connections like this
+    openSocket('localhost', currentPort) #We are able to open multiple connections like this
 
     if checkWin() < 0 or turnCounter == 8:
         #Give the player game over
-        gameEndSocket('10.12.60.138', currentPort)
+        gameEndSocket('localhost', currentPort)
 
         #Change port
         if currentPort == 1234:
@@ -168,7 +168,7 @@ while True:
         turnCounter =+ 1
 
         #Give the other player game over
-        gameEndSocket('10.12.60.138', currentPort)
+        gameEndSocket('localhost', currentPort)
         break
 
     #Change port

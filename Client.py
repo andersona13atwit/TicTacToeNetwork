@@ -1,6 +1,7 @@
 import socket
 import time
 from threading import Thread
+import time
 """
 The Order of operations between server and client should be:
 
@@ -23,7 +24,8 @@ closeClient = False
 timer = 20
 grid = [[2, 2, 2], 
         [2, 2, 2], 
-        [2, 2, 2]]
+        [2, 2, 2]] # This is a pretty simple variable, just the grid we use throughout the program
+validInput = True  # This variable is a boolean we use in our timer function to solve the issue of closing sockets
 def stringifyGrid(incString):
     """A method to turn a byte-string version of an array into a normal string version of an array without the parentheses
         Made to be used within stringToGrid
@@ -117,7 +119,7 @@ def inputTimer(timer):
     sendInput = False            
 
 
-host = '10.12.60.138'
+host = 'localhost'
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, 1234))
@@ -141,5 +143,5 @@ while True:
         s.send(bytes(inputs, 'utf-8'))
 
         # This is going to be sent and updated from server
-        s.close()
+        # time.sleep(15)
     time.sleep(timer+2)
