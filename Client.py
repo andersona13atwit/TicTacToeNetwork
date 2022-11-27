@@ -20,8 +20,7 @@ Client makes further descisions based on such
 
 sendInput = True
 inputs = None
-closeClient = False
-timer = 20
+timer = 5
 grid = [[2, 2, 2], 
         [2, 2, 2], 
         [2, 2, 2]] # This is a pretty simple variable, just the grid we use throughout the program
@@ -105,7 +104,7 @@ def formatInput(stringInput):
             print('You entered a non-numeric character, please try another input')
             return formatInput(input('Please enter a position: '))
         
-    return str(location[0]) + "," + str(location[1])
+    return str(location[0]) + ',' + str(location[1])
 
 def inputTimer(timer):
     """If the input is not set before the timer, skip turn
@@ -116,6 +115,7 @@ def inputTimer(timer):
     if inputs != None:
         return None
     print('You took too long for an input, sorry!')
+    global sendInput 
     sendInput = False            
 
 
@@ -127,8 +127,10 @@ s.connect((host, 1234))
 
 
 while True:
+    sendInput = True
     Thread(target=inputTimer, args=(timer,)).start()
     while True:
+        inputs = None
         #get grid    
         grid = stringToGrid(s.recv(50).decode())
         stringifyGrid(grid)
@@ -140,7 +142,10 @@ while True:
         inputs = formatInput(input(prompt))
 
         #send input
-        s.send(bytes(inputs, 'utf-8'))
+        if sendInput:
+            s.send(bytes(inputs, 'utf-8'))
+        else:
+            s.send(bytes('-1', 'utf-8'))
 
         # This is going to be sent and updated from server
         # time.sleep(15)

@@ -69,10 +69,10 @@ def addSymbol(location):
         location (String): acts as coordinates in the grid and specifies where to put the symbol, has to be put into array form first
     """
     if(isinstance(location, str)):
-        location = location.split(',')
-        
-        if grid[int(location[0])][int(location[1])] == 2:
-            grid[int(location[0])][int(location[1])] = currentPlayer-1
+        if location != '-1':
+            location = location.split(',')    
+            if grid[int(location[0])][int(location[1])] == 2:
+                grid[int(location[0])][int(location[1])] = currentPlayer-1
             
 
 
