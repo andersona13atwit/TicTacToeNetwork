@@ -1,5 +1,6 @@
 import socket
-
+import time
+from threading import Thread
 """
 The Order of operations between server and client should be:
 
@@ -16,7 +17,10 @@ Client makes further descisions based on such
 
 
 
-
+sendInput = True
+inputs = None
+closeClient = False
+timer = 20
 grid = [[2, 2, 2], 
         [2, 2, 2], 
         [2, 2, 2]]
@@ -100,7 +104,17 @@ def formatInput(stringInput):
             return formatInput(input('Please enter a position: '))
         
     return str(location[0]) + "," + str(location[1])
-            
+
+def inputTimer(timer):
+    """If the input is not set before the timer, skip turn
+        Returns:
+            None: A blank return statement, exists just to make sure sendInput doesn't become false
+    """
+    time.sleep(timer)
+    if inputs != None:
+        return None
+    print('You took too long for an input, sorry!')
+    sendInput = False            
 
 
 host = '10.12.60.138'
@@ -108,23 +122,24 @@ host = '10.12.60.138'
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, 1234))
 
+
+
 while True:
-    #get grid
-    grid = stringToGrid(s.recv(50).decode())
-    stringifyGrid(grid)
-    printGrid()
+    Thread(target=inputTimer, args=(timer,)).start()
+    while True:
+        #get grid    
+        grid = stringToGrid(s.recv(50).decode())
+        stringifyGrid(grid)
+        printGrid()
 
-    #get input
-    prompt = 'Please enter a position: '
-    inputs = formatInput(input(prompt))
+        #get input
+        prompt = 'Please enter a position: '
 
-    #send input
-    s.send(bytes(inputs, 'utf-8'))
-    s.close()
+        inputs = formatInput(input(prompt))
 
+        #send input
+        s.send(bytes(inputs, 'utf-8'))
 
-
-
-
-
-
+        # This is going to be sent and updated from server
+        s.close()
+    time.sleep(timer+2)

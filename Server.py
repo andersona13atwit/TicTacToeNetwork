@@ -1,5 +1,6 @@
 import socket
-
+import time
+from threading import Thread
 currentPlayer = 1
 grid = [[2, 2, 2], 
         [2, 2, 2], 
